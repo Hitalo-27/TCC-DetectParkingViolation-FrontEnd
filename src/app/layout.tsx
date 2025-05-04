@@ -7,6 +7,9 @@ const inter = Inter({ subsets: ['latin'] });
 export const metadata: Metadata = {
   title: 'IPD',
   description: 'Sistema de Monitoramento de Infrações',
+  icons: {
+    icon: '/car.png',
+  },
 };
 
 export default function RootLayout({
