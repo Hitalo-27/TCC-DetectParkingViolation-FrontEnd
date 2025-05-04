@@ -1,6 +1,10 @@
 "use client";
 
-import { User } from "lucide-react";
+import {
+  LogOut,
+  User,
+  Car,
+} from "lucide-react";
 import Link from "next/link";
 import {
   DropdownMenu,
@@ -34,15 +38,32 @@ export default function DashboardLayout({
                   <span className="sr-only">Menu de usuário</span>
                 </Button>
               </DropdownMenuTrigger>
-              <DropdownMenuContent align="end" className="w-48">
+              <DropdownMenuContent align="end" className="w-56">
                 <DropdownMenuItem asChild>
-                  <Link href="/dashboard/vehicles" className="cursor-pointer">
+                  <Link
+                    href="/dashboard/vehicles"
+                    className="cursor-pointer flex items-center gap-2"
+                  >
+                    <Car className="w-4 h-4" />
                     Veículos Enviados
                   </Link>
                 </DropdownMenuItem>
                 <DropdownMenuItem asChild>
-                  <Link href="/dashboard/profile" className="cursor-pointer">
+                  <Link
+                    href="/dashboard/profile"
+                    className="cursor-pointer flex items-center gap-2"
+                  >
+                    <User className="w-4 h-4" />
                     Meu Perfil
+                  </Link>
+                </DropdownMenuItem>
+                <DropdownMenuItem asChild>
+                  <Link
+                    href="/"
+                    className="cursor-pointer flex items-center gap-2"
+                  >
+                    <LogOut className="w-4 h-4" />
+                    Sair
                   </Link>
                 </DropdownMenuItem>
               </DropdownMenuContent>

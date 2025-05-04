@@ -18,6 +18,7 @@ const mockInfraction = {
       location: "Av. Paulista, 1000",
       datetime: "2024-03-20 14:30",
       reason: "Estacionamento em local proibido",
+      type: "Grave",
       image:
         "https://wallpapers.com/images/hd/4k-red-car-with-sunlight-at-forest-yv4lcxhpv99ide9a.jpg",
     },
@@ -25,6 +26,7 @@ const mockInfraction = {
       location: "Rua Augusta, 500",
       datetime: "2024-03-19 16:45",
       reason: "Estacionamento em faixa de pedestres",
+      type: "Grave",
       image:
         "https://wallpapers.com/images/featured/imagens-de-carros-em-4k-g6a4f0e15hkua5oa.jpg",
     },
@@ -50,6 +52,12 @@ export default function Search() {
 
   const closeModal = () => {
     setSelectedImage(null);
+  };
+
+  const handleModalClick = (e: React.MouseEvent) => {
+    if (e.target === e.currentTarget) {
+      closeModal();
+    }
   };
 
   return (
@@ -113,6 +121,7 @@ export default function Search() {
                       </p>
                       <p>Data/Hora: {infraction.datetime}</p>
                       <p>Motivo: {infraction.reason}</p>
+                      <p>Tipo de Infração: {infraction.type}</p>
                     </div>
                     <div className="flex justify-end">
                       <img
@@ -134,7 +143,7 @@ export default function Search() {
       {selectedImage && (
         <div
           className="fixed inset-0 bg-black bg-opacity-80 flex justify-center items-center z-50"
-          onClick={closeModal} // Adiciona o evento de clique para fechar a modal
+          onClick={handleModalClick} // Adiciona o evento de clique para fechar a modal
         >
           <div className="relative">
             <img
