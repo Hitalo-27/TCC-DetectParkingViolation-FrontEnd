@@ -34,8 +34,10 @@ export default function DashboardLayout({
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 <Button variant="ghost" size="icon" className="rounded-full">
-                  <User className="h-5 w-5" />
-                  <span className="sr-only">Menu de usuário</span>
+                  <img
+                    src="https://cdn-icons-png.flaticon.com/512/219/219983.png"
+                    alt="User Avatar"
+                  />
                 </Button>
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end" className="w-56">
