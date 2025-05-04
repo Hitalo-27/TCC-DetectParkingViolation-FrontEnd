@@ -10,33 +10,46 @@ import { useState } from "react";
 const mockInfraction = {
   plate: "ABC1234",
   images: [
-    "https://images.unsplash.com/photo-1621799754526-a0d52c49fad5?q=80&w=800",
-    "https://images.unsplash.com/photo-1580273916550-e323be2ae537?q=80&w=800",
+    "https://wallpapers.com/images/hd/4k-red-car-with-sunlight-at-forest-yv4lcxhpv99ide9a.jpg",
+    "https://wallpapers.com/images/featured/imagens-de-carros-em-4k-g6a4f0e15hkua5oa.jpg",
   ],
   infractions: [
     {
       location: "Av. Paulista, 1000",
       datetime: "2024-03-20 14:30",
       reason: "Estacionamento em local proibido",
+      image:
+        "https://wallpapers.com/images/hd/4k-red-car-with-sunlight-at-forest-yv4lcxhpv99ide9a.jpg",
     },
     {
       location: "Rua Augusta, 500",
       datetime: "2024-03-19 16:45",
       reason: "Estacionamento em faixa de pedestres",
+      image:
+        "https://wallpapers.com/images/featured/imagens-de-carros-em-4k-g6a4f0e15hkua5oa.jpg",
     },
   ],
 };
 
 export default function Search() {
   const [plate, setPlate] = useState("");
-  const [searchResult, setSearchResult] = useState<typeof mockInfraction | null>(
-    null
-  );
+  const [searchResult, setSearchResult] = useState<
+    typeof mockInfraction | null
+  >(null);
+  const [selectedImage, setSelectedImage] = useState<string | null>(null);
 
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
     // Simulação de busca
     setSearchResult(mockInfraction);
+  };
+
+  const handleImageClick = (image: string) => {
+    setSelectedImage(image);
+  };
+
+  const closeModal = () => {
+    setSelectedImage(null);
   };
 
   return (
@@ -77,7 +90,8 @@ export default function Search() {
                     key={index}
                     src={image}
                     alt={`Infração ${index + 1}`}
-                    className="w-full h-64 object-cover rounded-lg"
+                    className="w-full h-64 object-cover rounded-lg cursor-pointer"
+                    onClick={() => handleImageClick(image)}
                   />
                 ))}
               </div>
@@ -91,11 +105,23 @@ export default function Search() {
                 {searchResult.infractions.map((infraction, index) => (
                   <div
                     key={index}
-                    className="p-4 bg-gray-50 rounded-lg space-y-2"
+                    className="grid grid-cols-1 md:grid-cols-[3fr_2fr] p-4 bg-gray-50 rounded-lg items-center"
                   >
-                    <p className="font-medium">Local: {infraction.location}</p>
-                    <p>Data/Hora: {infraction.datetime}</p>
-                    <p>Motivo: {infraction.reason}</p>
+                    <div className="flex flex-col justify-center">
+                      <p className="font-medium">
+                        Local: {infraction.location}
+                      </p>
+                      <p>Data/Hora: {infraction.datetime}</p>
+                      <p>Motivo: {infraction.reason}</p>
+                    </div>
+                    <div className="flex justify-end">
+                      <img
+                        src={infraction.image}
+                        alt={`Infração ${index + 1}`}
+                        className="w-full h-24 object-cover rounded-lg cursor-pointer max-w-xs"
+                        onClick={() => handleImageClick(infraction.image)}
+                      />
+                    </div>
                   </div>
                 ))}
               </div>
@@ -103,6 +129,28 @@ export default function Search() {
           </div>
         )}
       </div>
+
+      {/* Modal para exibir a imagem em tamanho maior */}
+      {selectedImage && (
+        <div
+          className="fixed inset-0 bg-black bg-opacity-80 flex justify-center items-center z-50"
+          onClick={closeModal} // Adiciona o evento de clique para fechar a modal
+        >
+          <div className="relative">
+            <img
+              src={selectedImage}
+              alt="Imagem Ampliada"
+              className="max-w-[80vw] max-h-[80vh] object-contain"
+            />
+            <button
+              onClick={closeModal}
+              className="absolute -top-4 -right-4 bg-white text-black rounded-full w-8 h-8 flex items-center justify-center shadow-md"
+            >
+              X
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
