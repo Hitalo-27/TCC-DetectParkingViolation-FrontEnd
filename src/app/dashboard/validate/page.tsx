@@ -13,6 +13,7 @@ const mockValidationResult = {
   location: "Rua Oscar Freire, 123",
   datetime: "2024-03-21 15:45",
   infraction: "Estacionamento em vaga de idoso sem credencial",
+  type: "Grave",
 };
 
 export default function Validate() {
@@ -102,6 +103,7 @@ export default function Validate() {
                   <p><span className="font-medium">Local:</span> {validationResult.location}</p>
                   <p><span className="font-medium">Data/Hora:</span> {validationResult.datetime}</p>
                   <p><span className="font-medium">Infração:</span> {validationResult.infraction}</p>
+                  <p><span className="font-medium">Tipo de Infração:</span> {validationResult.type}</p>
                 </>
               )}
             </div>

@@ -18,7 +18,7 @@ export default function DashboardLayout({
   return (
     <div className="flex min-h-screen flex-col">
       <header className="w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 px-4">
-        <div className="container flex h-16 items-center justify-between">
+        <div className="container flex h-16 items-center justify-between min-w-full">
           <Link
             href="/dashboard"
             className="flex items-center gap-2 font-semibold"
