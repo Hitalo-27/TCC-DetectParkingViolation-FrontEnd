@@ -1,10 +1,6 @@
 "use client";
 
-import {
-  LogOut,
-  User,
-  Car,
-} from "lucide-react";
+import { LogOut, User, Car, Camera } from "lucide-react";
 import Link from "next/link";
 import {
   DropdownMenu,
@@ -41,6 +37,15 @@ export default function DashboardLayout({
                 </Button>
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end" className="w-56">
+                <DropdownMenuItem asChild>
+                  <Link
+                    href="/dashboard/cameras"
+                    className="cursor-pointer flex items-center gap-2"
+                  >
+                    <Camera className="w-4 h-4" />
+                    Minhas Cameras
+                  </Link>
+                </DropdownMenuItem>
                 <DropdownMenuItem asChild>
                   <Link
                     href="/dashboard/vehicles"
