@@ -24,7 +24,7 @@ export default function Login() {
     e.preventDefault();
 
     try {
-      const response = await fetch("http://146.235.31.205:8000/users/login", {
+      const response = await fetch("https://ipd.hitalo.criarsite.online/users/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email, password }),
