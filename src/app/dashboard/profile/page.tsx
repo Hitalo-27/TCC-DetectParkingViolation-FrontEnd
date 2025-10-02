@@ -36,7 +36,7 @@ export default function Profile() {
     const fetchUser = async () => {
       try {
         const token = localStorage.getItem("token");
-        const response = await fetch("http://localhost:8000/users/me", {
+        const response = await fetch("http://146.235.31.205:8000/users/me", {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -108,7 +108,7 @@ export default function Profile() {
         payload.new_password_confirm = form.confirmPassword;
       }
 
-      const response = await fetch("http://localhost:8000/users/update", {
+      const response = await fetch("http://146.235.31.205:8000/users/update", {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",

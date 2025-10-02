@@ -16,7 +16,7 @@ export function useAuth() {
 
     const checkToken = async () => {
       try {
-        const res = await fetch("http://127.0.0.1:8000/users/me", {
+        const res = await fetch("http://146.235.31.205:8000/users/me", {
           headers: {
             Authorization: `Bearer ${token}`,
           },
