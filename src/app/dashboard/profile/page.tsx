@@ -12,7 +12,8 @@ import {
   AvatarFallback,
   AvatarImage,
 } from "@/src/components/ui/avatar";
-import { Camera, X} from "lucide-react";
+import { Camera, X } from "lucide-react";
+import { API_BASE_URL } from "@/src/config/env";
 
 export default function Profile() {
   const router = useRouter();
@@ -36,7 +37,7 @@ export default function Profile() {
     const fetchUser = async () => {
       try {
         const token = localStorage.getItem("token");
-        const response = await fetch("https://ipd.hitalo.criarsite.online/users/me", {
+        const response = await fetch(`${API_BASE_URL}/users/me`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -53,10 +54,11 @@ export default function Profile() {
           email: data.email,
         }));
 
-        // Se houver imagem de perfil, você pode setar previewImage aqui
-        if (data.profile_image_url) {
-          setPreviewImage(data.profile_image_url);
-        }
+        const imageUrl = data.image_url
+          ? `${API_BASE_URL}${data.image_url}` // concatena o domínio
+          : null;
+
+        setPreviewImage(imageUrl);
       } catch (err) {
         console.error(err);
       }
@@ -97,24 +99,28 @@ export default function Profile() {
 
     try {
       const token = localStorage.getItem("token");
-      const payload: any = {
-        username: form.name,
-        email: form.email,
-      };
+
+      // Criar um FormData para suportar arquivos
+      const formData = new FormData();
+      formData.append("username", form.name);
+      formData.append("email", form.email);
 
       if (form.currentPassword && form.newPassword && form.confirmPassword) {
-        payload.old_password = form.currentPassword;
-        payload.new_password = form.newPassword;
-        payload.new_password_confirm = form.confirmPassword;
+        formData.append("old_password", form.currentPassword);
+        formData.append("new_password", form.newPassword);
+        formData.append("new_password_confirm", form.confirmPassword);
       }
 
-      const response = await fetch("https://ipd.hitalo.criarsite.online/users/update", {
+      if (profileImage) {
+        formData.append("image", profileImage); 
+      }
+
+      const response = await fetch(`${API_BASE_URL}/users/update`, {
         method: "PUT",
         headers: {
-          "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,
         },
-        body: JSON.stringify(payload),
+        body: formData,
       });
 
       if (!response.ok) {
@@ -130,6 +136,7 @@ export default function Profile() {
       setToastOpen(true);
       router.push("/dashboard");
     } catch (err) {
+      console.error(err);
       setToastVariant("error");
       setToastMessage("Erro na comunicação com o servidor");
       setToastOpen(true);

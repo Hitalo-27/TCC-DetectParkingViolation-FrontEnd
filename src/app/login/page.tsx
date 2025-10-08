@@ -9,6 +9,7 @@ import { Label } from "@/src/components/ui/label";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { X } from "lucide-react";
+import { API_BASE_URL } from "@/src/config/env";
 
 export default function Login() {
   const router = useRouter();
@@ -24,7 +25,7 @@ export default function Login() {
     e.preventDefault();
 
     try {
-      const response = await fetch("https://ipd.hitalo.criarsite.online/users/login", {
+      const response = await fetch(`${API_BASE_URL}/users/login`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email, password }),

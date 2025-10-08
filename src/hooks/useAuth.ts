@@ -2,6 +2,7 @@
 
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
+import { API_BASE_URL } from "@/src/config/env";
 
 export function useAuth() {
   const router = useRouter();
@@ -16,7 +17,7 @@ export function useAuth() {
 
     const checkToken = async () => {
       try {
-        const res = await fetch("https://ipd.hitalo.criarsite.online/users/me", {
+        const res = await fetch(`${API_BASE_URL}/users/me`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
