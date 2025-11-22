@@ -9,6 +9,7 @@ import { API_BASE_URL } from "@/src/config/env";
 import { ReloadIcon } from "@radix-ui/react-icons";
 
 // Dados simulados de resultado da validação
+
 type mockValidationResult = {
   hasInfraction: boolean,
   plate: string,
@@ -16,7 +17,7 @@ type mockValidationResult = {
   datetime: string,
   infraction: string,
   type: string,
-};
+}
 
 export default function Validate() {
   const [file, setFile] = useState<File | null>(null);
@@ -84,7 +85,7 @@ export default function Validate() {
         <Card className="p-6">
           <form onSubmit={handleSubmit} className="space-y-4">
             <div>
-              <Label htmlFor="file">Enviar Imagem ou Vídeo</Label>
+              <Label htmlFor="file">Enviar Imagem</Label>
               <Input
                 id="file"
                 type="file"
@@ -93,7 +94,7 @@ export default function Validate() {
                 className="mt-1"
               />
               <p className="text-sm text-gray-500 mt-1">
-                Formatos aceitos: JPG, PNG, MP4, MOV
+                Formatos aceitos: JPG, PNG
               </p>
             </div>
 
