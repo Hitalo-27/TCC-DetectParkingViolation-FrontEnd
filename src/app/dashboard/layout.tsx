@@ -1,6 +1,6 @@
 "use client";
 
-import { LogOut, User, Car, Camera } from "lucide-react";
+import { LogOut, User, Car, Search, CheckCheck } from "lucide-react";
 import Link from "next/link";
 import {
   DropdownMenu,
@@ -42,25 +42,35 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
                 </Button>
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end" className="w-56">
-                <DropdownMenuItem asChild>
+                {/* <DropdownMenuItem asChild>
                   <Link href="/dashboard/cameras" className="flex items-center gap-2">
                     <Camera className="w-4 h-4" /> Minhas Câmeras
                   </Link>
-                </DropdownMenuItem>
+                </DropdownMenuItem> */}
                 <DropdownMenuItem asChild>
-                  <Link href="/dashboard/vehicles" className="flex items-center gap-2">
-                    <Car className="w-4 h-4" /> Veículos Enviados
+                  <Link href="/dashboard/search" className="flex items-center gap-2 focus:text-primary">
+                    <Search className="w-4 h-4" /> Consultar Infrações
                   </Link>
                 </DropdownMenuItem>
                 <DropdownMenuItem asChild>
-                  <Link href="/dashboard/profile" className="flex items-center gap-2">
+                  <Link href="/dashboard/validate" className="flex items-center gap-2 focus:text-primary">
+                    <CheckCheck className="w-4 h-4" /> Validar Infrações
+                  </Link>
+                </DropdownMenuItem>
+                <DropdownMenuItem asChild>
+                  <Link href="/dashboard/vehicles" className="flex items-center gap-2 focus:text-primary">
+                    <Car className="w-4 h-4" /> Infrações Enviadas
+                  </Link>
+                </DropdownMenuItem>
+                <DropdownMenuItem asChild>
+                  <Link href="/dashboard/profile" className="flex items-center gap-2 focus:text-primary">
                     <User className="w-4 h-4" /> Meu Perfil
                   </Link>
                 </DropdownMenuItem>
                 <DropdownMenuItem asChild>
                   <Link
                     href="/"
-                    className="flex items-center gap-2"
+                    className="flex items-center gap-2 focus:text-red-600"
                     onClick={() => localStorage.removeItem("token")}
                   >
                     <LogOut className="w-4 h-4" /> Sair
