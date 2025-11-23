@@ -14,7 +14,9 @@ export default function Search() {
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [selectedInfraction, setSelectedInfraction] = useState<any | null>(null);
+  const [selectedInfraction, setSelectedInfraction] = useState<any | null>(
+    null
+  );
 
   const handleSearch = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -123,53 +125,70 @@ export default function Search() {
             </Card>
 
             {searchResult.infracoes?.length > 0 && (
-              <Card className="p-6 space-y-6">
-                {searchResult.infracoes.map((inf: any, index: number) => (
-                  <div
-                    key={index}
-                    className="grid grid-cols-1 md:grid-cols-[3fr_2fr] p-4 bg-gray-50 rounded-lg items-center"
-                  >
-                    <div className="flex flex-col justify-center">
-                      <p>
-                        <strong>Local:</strong>{" "}
-                        {`Av. Paulista, ${inf.endereco.cidade}, SP - ${inf.endereco.pais}`}
-                      </p>
-                      <p className="font-medium">
-                        <strong>Data/Hora:</strong>{" "}
-                        {new Date(inf.data).toLocaleString("pt-BR")}
-                      </p>
-                      <p>
-                        <strong>Motivo:</strong> {inf.tipo_infracao.descricao}
-                      </p>
-                      <p>
-                        <strong>Tipo de Infração:</strong>{" "}
-                        {inf.tipo_infracao.gravidade}
-                      </p>
-                      <p>
-                        <strong>Pontos:</strong> {inf.tipo_infracao.pontos}
-                      </p>
-                    </div>
-
-                    {inf.imagem && (
-                      <div className="flex justify-end">
-                        <img
-                          src={`${API_BASE_URL}${inf.imagem}`}
-                          alt={`Infração ${index + 1}`}
-                          className="w-full h-24 object-cover rounded-lg cursor-pointer max-w-xs"
-                          onClick={() =>
-                            handleImageClick(`${API_BASE_URL}${inf.imagem}`)
-                          }
-                        />
+              <>
+                <Card className="p-6 space-y-6">
+                  {searchResult.infracoes.map((inf: any, index: number) => (
+                    <div
+                      key={index}
+                      className="grid grid-cols-1 md:grid-cols-[3fr_2fr] p-4 bg-gray-50 rounded-lg items-center"
+                    >
+                      <div className="flex flex-col justify-center">
+                        <p>
+                          <strong>Local:</strong>{" "}
+                          {`${inf.endereco.rua}, ${inf.endereco.cidade}, ${inf.endereco.estado} - ${inf.endereco.pais}`}
+                        </p>
+                        <p className="font-medium">
+                          <strong>Data/Hora:</strong>{" "}
+                          {new Date(inf.data).toLocaleString("pt-BR")}
+                        </p>
+                        <p>
+                          <strong>Motivo:</strong> {inf.tipo_infracao.descricao}
+                        </p>
+                        <p>
+                          <strong>Tipo de Infração:</strong>{" "}
+                          {inf.tipo_infracao.gravidade}
+                        </p>
+                        <p>
+                          <strong>Pontos:</strong> {inf.tipo_infracao.pontos}
+                        </p>
                       </div>
-                    )}
-                  </div>
-                ))}
-              </Card>
+
+                      {inf.imagem && (
+                        <div className="flex justify-end">
+                          <img
+                            src={`${API_BASE_URL}${inf.imagem}`}
+                            alt={`Infração ${index + 1}`}
+                            className="w-full h-24 object-cover rounded-lg cursor-pointer max-w-xs"
+                            onClick={() =>
+                              handleImageClick(`${API_BASE_URL}${inf.imagem}`)
+                            }
+                          />
+                        </div>
+                      )}
+                    </div>
+                  ))}
+                </Card>
+                {/* 👇 Passando os dados reais para o mapa */}
+                <Mapa
+                  locations={searchResult.infracoes.map((inf: any) => ({
+                    id: inf.id || Math.random(),
+                    latitude: Number(inf.endereco.latitude),
+                    longitude: Number(inf.endereco.longitude),
+                    rua: inf.endereco.rua,
+                    cidade: inf.endereco.cidade,
+                    estado: inf.endereco.estado,
+                    data: new Date(inf.data).toLocaleString("pt-BR"),
+                    imagem: `${API_BASE_URL}${inf.imagem}`,
+                    user: inf.veiculo?.origem || "Desconhecido",
+                    pontos: inf.tipo_infracao.pontos,
+                    infracao: inf.tipo_infracao.descricao,
+                  }))}
+                  onMarkerClick={(data) => setSelectedInfraction(data)}
+                />
+              </>
             )}
           </div>
         )}
-
-        <Mapa onMarkerClick={(data) => setSelectedInfraction(data)} />
       </div>
 
       {/* Modal */}
@@ -189,7 +208,6 @@ export default function Search() {
           >
             {selectedInfraction ? (
               <div className="flex flex-col items-center flex-grow">
-
                 {/* IMAGEM COM TAMANHO CONTROLADO (SEM CRIAR SCROLL) */}
                 <img
                   src={selectedInfraction.imagem}
@@ -210,27 +228,42 @@ export default function Search() {
 
                 {/* DUAS COLUNAS SEM ESTOURAR A TELA */}
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 w-full text-gray-800">
-
                   {/* COLUNA ESQUERDA */}
                   <div className="space-y-1">
                     <p>
-                      <span className="font-semibold text-gray-700">Local:</span>{" "}
-                      <span className="text-gray-900">{selectedInfraction.rua}</span>
+                      <span className="font-semibold text-gray-700">
+                        Local:
+                      </span>{" "}
+                      <span className="text-gray-900">
+                        {selectedInfraction.rua}
+                      </span>
                     </p>
 
                     <p>
-                      <span className="font-semibold text-gray-700">Cidade:</span>{" "}
-                      <span className="text-gray-900">{selectedInfraction.cidade}</span>
+                      <span className="font-semibold text-gray-700">
+                        Cidade:
+                      </span>{" "}
+                      <span className="text-gray-900">
+                        {selectedInfraction.cidade}
+                      </span>
                     </p>
 
                     <p>
-                      <span className="font-semibold text-gray-700">Estado:</span>{" "}
-                      <span className="text-gray-900">{selectedInfraction.estado}</span>
+                      <span className="font-semibold text-gray-700">
+                        Estado:
+                      </span>{" "}
+                      <span className="text-gray-900">
+                        {selectedInfraction.estado}
+                      </span>
                     </p>
 
                     <p>
-                      <span className="font-semibold text-gray-700">Registrado por:</span>{" "}
-                      <span className="text-gray-900">{selectedInfraction.user}</span>
+                      <span className="font-semibold text-gray-700">
+                        Registrado por:
+                      </span>{" "}
+                      <span className="text-gray-900">
+                        {selectedInfraction.user}
+                      </span>
                     </p>
                   </div>
 
@@ -238,20 +271,29 @@ export default function Search() {
                   <div className="space-y-1">
                     <p>
                       <span className="font-semibold text-gray-700">Data:</span>{" "}
-                      <span className="text-gray-900">{selectedInfraction.data}</span>
+                      <span className="text-gray-900">
+                        {selectedInfraction.data}
+                      </span>
                     </p>
 
                     <p>
-                      <span className="font-semibold text-gray-700">Infração:</span>{" "}
-                      <span className="text-gray-900">{selectedInfraction.infracao}</span>
+                      <span className="font-semibold text-gray-700">
+                        Infração:
+                      </span>{" "}
+                      <span className="text-gray-900">
+                        {selectedInfraction.infracao}
+                      </span>
                     </p>
 
                     <p>
-                      <span className="font-semibold text-gray-700">Pontos:</span>{" "}
-                      <span className="text-gray-900">{selectedInfraction.pontos}</span>
+                      <span className="font-semibold text-gray-700">
+                        Pontos:
+                      </span>{" "}
+                      <span className="text-gray-900">
+                        {selectedInfraction.pontos}
+                      </span>
                     </p>
                   </div>
-
                 </div>
               </div>
             ) : (
@@ -276,7 +318,8 @@ export default function Search() {
             </button>
           </div>
         </div>
-      )}{/* Modal */}
+      )}
+      {/* Modal */}
       {(selectedImage || selectedInfraction) && (
         <div
           className="fixed inset-0 bg-black/60 backdrop-blur-sm flex justify-center items-center z-50 px-4"
@@ -293,7 +336,6 @@ export default function Search() {
           >
             {selectedInfraction ? (
               <div className="flex flex-col items-center flex-grow">
-
                 {/* IMAGEM COM TAMANHO CONTROLADO (SEM CRIAR SCROLL) */}
                 <img
                   src={selectedInfraction.imagem}
@@ -314,27 +356,42 @@ export default function Search() {
 
                 {/* DUAS COLUNAS SEM ESTOURAR A TELA */}
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 w-full text-gray-800">
-
                   {/* COLUNA ESQUERDA */}
                   <div className="space-y-1">
                     <p>
-                      <span className="font-semibold text-gray-700">Local:</span>{" "}
-                      <span className="text-gray-900">{selectedInfraction.rua}</span>
+                      <span className="font-semibold text-gray-700">
+                        Local:
+                      </span>{" "}
+                      <span className="text-gray-900">
+                        {selectedInfraction.rua}
+                      </span>
                     </p>
 
                     <p>
-                      <span className="font-semibold text-gray-700">Cidade:</span>{" "}
-                      <span className="text-gray-900">{selectedInfraction.cidade}</span>
+                      <span className="font-semibold text-gray-700">
+                        Cidade:
+                      </span>{" "}
+                      <span className="text-gray-900">
+                        {selectedInfraction.cidade}
+                      </span>
                     </p>
 
                     <p>
-                      <span className="font-semibold text-gray-700">Estado:</span>{" "}
-                      <span className="text-gray-900">{selectedInfraction.estado}</span>
+                      <span className="font-semibold text-gray-700">
+                        Estado:
+                      </span>{" "}
+                      <span className="text-gray-900">
+                        {selectedInfraction.estado}
+                      </span>
                     </p>
 
                     <p>
-                      <span className="font-semibold text-gray-700">Registrado por:</span>{" "}
-                      <span className="text-gray-900">{selectedInfraction.user}</span>
+                      <span className="font-semibold text-gray-700">
+                        Registrado por:
+                      </span>{" "}
+                      <span className="text-gray-900">
+                        {selectedInfraction.user}
+                      </span>
                     </p>
                   </div>
 
@@ -342,20 +399,29 @@ export default function Search() {
                   <div className="space-y-1">
                     <p>
                       <span className="font-semibold text-gray-700">Data:</span>{" "}
-                      <span className="text-gray-900">{selectedInfraction.data}</span>
+                      <span className="text-gray-900">
+                        {selectedInfraction.data}
+                      </span>
                     </p>
 
                     <p>
-                      <span className="font-semibold text-gray-700">Infração:</span>{" "}
-                      <span className="text-gray-900">{selectedInfraction.infracao}</span>
+                      <span className="font-semibold text-gray-700">
+                        Infração:
+                      </span>{" "}
+                      <span className="text-gray-900">
+                        {selectedInfraction.infracao}
+                      </span>
                     </p>
 
                     <p>
-                      <span className="font-semibold text-gray-700">Pontos:</span>{" "}
-                      <span className="text-gray-900">{selectedInfraction.pontos}</span>
+                      <span className="font-semibold text-gray-700">
+                        Pontos:
+                      </span>{" "}
+                      <span className="text-gray-900">
+                        {selectedInfraction.pontos}
+                      </span>
                     </p>
                   </div>
-
                 </div>
               </div>
             ) : (
