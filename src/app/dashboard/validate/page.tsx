@@ -89,9 +89,9 @@ export default function Validate() {
               <Input
                 id="file"
                 type="file"
-                accept="image/*,video/*"
+                accept="image/*"
                 onChange={handleFileChange}
-                className="mt-1"
+                className="mt-1 cursor-pointer"
               />
               <p className="text-sm text-gray-500 mt-1">
                 Formatos aceitos: JPG, PNG
