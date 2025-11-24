@@ -33,7 +33,7 @@ export default function Dashboard() {
           <Card className="p-6 hover:shadow-lg transition-shadow">
             <h2 className="text-2xl font-semibold mb-4">Validar Infração</h2>
             <p className="text-gray-600 mb-6">
-              Envie imagens ou vídeos para análise automática de infrações
+              Envie imagens para análise automática de infrações
               de estacionamento.
             </p>
             <Button

@@ -35,7 +35,7 @@ export default function Home() {
         <div className="grid md:grid-cols-3 gap-6 mt-12">
           <Card className="p-6">
             <h3 className="text-lg font-semibold mb-2">
-              Envie Imagens ou Vídeos
+              Envie Imagens
             </h3>
             <p className="text-gray-600">
               Faça upload de evidências de infrações para análise rápida e
