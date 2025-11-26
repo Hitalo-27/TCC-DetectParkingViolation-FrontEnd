@@ -214,11 +214,11 @@ export default function Validate() {
                       </p>
                       <p>
                         <span className="font-medium">Local:</span>{" "}
-                        {validationResult.data.endereco?.rua},{" "}
+                        {validationResult.data.endereco ? `${validationResult.data.endereco.rua}, ${validationResult.data.endereco.cidade} - ${validationResult.data.endereco.estado}` : "Não disponível"}
                       </p>
                       <p>
                         <span className="font-medium">Data/Hora:</span>{" "}
-                        {new Date(validationResult.data.data).toLocaleString("pt-BR")}
+                        {validationResult.data.data ? new Date(validationResult.data.data).toLocaleString("pt-BR") : "Não disponível"}
                       </p>
                       <p>
                         <span className="font-medium">Infração:</span>{" "}
