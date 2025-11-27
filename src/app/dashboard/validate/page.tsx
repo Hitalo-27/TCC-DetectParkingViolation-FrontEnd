@@ -238,7 +238,7 @@ export default function Validate() {
                 locations={[
                   {
                     id: Math.random(),
-                    placa: validationResult.data.veiculo?.placa_numer,
+                    placa: validationResult.data?.veiculo?.placa_numer,
                     latitude: Number(validationResult.data.endereco?.latitude),
                     longitude: Number(
                       validationResult.data.endereco?.longitude
