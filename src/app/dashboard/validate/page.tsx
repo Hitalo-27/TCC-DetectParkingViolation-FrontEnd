@@ -277,11 +277,11 @@ export default function Validate() {
                                 <div className="grid grid-cols-2 gap-4">
                                   <div className="bg-white p-3 rounded-lg border border-gray-100 shadow-sm">
                                     <span className="text-xs text-gray-500 uppercase font-bold tracking-wider mb-1 block">
-                                      Placa
+                                      Placa - Cor
                                     </span>
                                     <div className="text-xl font-mono font-bold text-gray-800">
                                       {validationResult.data.veiculo
-                                        ?.placa_numero || "---"}
+                                        ?.placa_numero || "---"} - {validationResult.data.veiculo?.cor || "---"}
                                     </div>
                                   </div>
 
