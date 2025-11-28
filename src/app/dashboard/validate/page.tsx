@@ -132,7 +132,6 @@ export default function Validate() {
 
   return (
     <ToastPrimitives.Provider swipeDirection="right">
-      <ToastPrimitives.Viewport />
       <div className="min-h-screen bg-gradient-to-b from-gray-50 to-gray-100 p-6">
         <div className="max-w-6xl mx-auto space-y-8">
           {/* Cabeçalho */}
@@ -144,6 +143,8 @@ export default function Validate() {
               Faça o upload da imagem para análise automática.
             </p>
           </div>
+          
+          <ToastPrimitives.Viewport />
 
           <Card className="p-6 md:p-8 shadow-md border-gray-200 bg-white">
             <form onSubmit={handleSubmit} className="space-y-6">
