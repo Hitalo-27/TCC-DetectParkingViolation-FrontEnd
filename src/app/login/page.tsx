@@ -7,11 +7,10 @@ import { Card } from "@/src/components/ui/card";
 import { Input } from "@/src/components/ui/input";
 import { Label } from "@/src/components/ui/label";
 import { useRouter, useSearchParams } from "next/navigation";
-import { useState, Suspense } from "react"; // Adicionado Suspense aqui
+import { useState, Suspense } from "react";
 import { X, Eye, EyeOff } from "lucide-react";
 import { API_BASE_URL } from "@/src/config/env";
 
-// 1. Renomeamos o componente principal original para LoginForm
 function LoginForm() {
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -20,7 +19,7 @@ function LoginForm() {
   const [showPassword, setShowPassword] = useState(false);
   const [toastOpen, setToastOpen] = useState(false);
   const [toastMessage, setToastMessage] = useState("");
-  const [toastVariant, setToastVariant] = useState("error");
+  const [toastVariant, setToastVariant] = useState<"success" | "error">("error");
 
   React.useEffect(() => {
     const error = searchParams.get('error');
@@ -32,7 +31,7 @@ function LoginForm() {
     }
   }, [searchParams, router]);
 
-  const handleLogin = async (e) => {
+  const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
 
     try {
@@ -55,9 +54,9 @@ function LoginForm() {
       setToastOpen(true);
 
       setTimeout(() => router.push("/dashboard"), 1000);
-    } catch (err) {
+    } catch (err: any) {
       setToastVariant("error");
-      setToastMessage(err.message);
+      setToastMessage(err.message || "Erro desconhecido");
       setToastOpen(true);
     }
   };
@@ -136,10 +135,8 @@ function LoginForm() {
   );
 }
 
-// 2. Criamos o componente Default que envolve o form com Suspense
 export default function Login() {
   return (
-    // O fallback é o que aparece enquanto o Next.js carrega os parâmetros da URL
     <Suspense fallback={<div className="min-h-screen flex items-center justify-center">Carregando...</div>}>
       <LoginForm />
     </Suspense>
