@@ -7,9 +7,10 @@ import { useUser } from "@/src/contexts/UserContext";
 import { Mapa } from "@/src/components/ui/mapa";
 import ModalInfraction from "@/src/components/ui/modalinfractions";
 import { useRouter } from "next/navigation";
+import { ImageModal } from "@/src/components/ui/modalvehicles";
 
 export default function Vehicles() {
-  const router = useRouter()
+  const router = useRouter();
   const { id } = useUser();
 
   const [infractions, setInfractions] = useState([]);
@@ -27,7 +28,7 @@ export default function Vehicles() {
 
         if (!token) {
           setError("Token não encontrado. Faça login novamente.");
-          router.push('/login?error=unauthorized')
+          router.push("/login?error=unauthorized");
           setLoading(false);
           return;
         }
@@ -103,9 +104,9 @@ export default function Vehicles() {
                   {infractions.map((inf: any, index: number) => (
                     <div
                       key={index}
-                      className="grid grid-cols-1 md:grid-cols-[3fr_2fr] p-4 bg-gray-50 rounded-lg items-center"
+                      className="grid grid-cols-1 md:grid-cols-[3fr_2fr] p-4 bg-gray-50 rounded-lg gap-4"
                     >
-                      <div className="flex flex-col justify-center">
+                      <div className="flex flex-col justify-center space-y-1">
                         <p>
                           <strong>Placa:</strong> {inf.veiculo.placa_numero}
                         </p>
@@ -134,15 +135,25 @@ export default function Vehicles() {
                       </div>
 
                       {inf.imagem && (
-                        <div className="flex justify-end">
-                          <img
-                            src={`${API_BASE_URL}${inf.imagem}`}
-                            alt={`Infração ${index + 1}`}
-                            className="w-full h-24 object-cover rounded-lg cursor-pointer max-w-xs"
+                        // 3. ALTERADO: Div relativa com altura mínima, e imagem absoluta dentro
+                        <div className="relative h-full min-h-[140px] w-full">
+                          <div
+                            className="absolute inset-0 group cursor-zoom-in w-full h-full"
                             onClick={() =>
                               handleImageClick(`${API_BASE_URL}${inf.imagem}`)
                             }
-                          />
+                          >
+                            <img
+                              src={`${API_BASE_URL}${inf.imagem}`}
+                              alt={`Infração ${index + 1}`}
+                              className="w-full h-full object-cover rounded-lg transition-opacity hover:opacity-90"
+                            />
+                            <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity bg-black/20 rounded-lg">
+                              <span className="text-white text-xs font-medium bg-black/50 px-2 py-1 rounded whitespace-nowrap">
+                                Clique para ampliar
+                              </span>
+                            </div>
+                          </div>
                         </div>
                       )}
                     </div>
@@ -172,8 +183,15 @@ export default function Vehicles() {
         )}
       </div>
 
+      {/* Modal exclusivo para Zoom da Imagem */}
+      <ImageModal
+        isOpen={!!selectedImage}
+        onClose={() => setSelectedImage(null)}
+        imageUrl={selectedImage}
+      />
+
       <ModalInfraction
-        selectedImage={selectedImage}
+        selectedImage={null}
         selectedInfraction={selectedInfraction}
         closeModal={closeModal}
         handleModalClick={handleModalClick}

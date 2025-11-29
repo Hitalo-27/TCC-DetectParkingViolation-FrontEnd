@@ -77,7 +77,7 @@ export default function Dashboard() {
             <div className="text-sm text-gray-600">Modelo SOTA</div>
           </Card>
           <Card className="p-4 text-center">
-            <div className="text-2xl font-bold text-orange-600">124056+</div>
+            <div className="text-2xl font-bold text-orange-600">800+</div>
             <div className="text-sm text-gray-600">Imagens Treino</div>
           </Card>
         </div>
