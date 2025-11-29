@@ -268,7 +268,7 @@ export default function Validate() {
                               <p className="text-xs opacity-80">
                                 {validationResult.hasInfraction
                                   ? "Atenção requerida para os dados abaixo."
-                                  : "Nenhuma irregularidade encontrada."}
+                                  : validationResult.message}
                               </p>
                             </div>
                           </div>
