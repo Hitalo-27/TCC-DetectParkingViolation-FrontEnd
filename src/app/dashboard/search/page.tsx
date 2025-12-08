@@ -275,7 +275,7 @@ export default function Search() {
                             <span className="text-gray-500 text-xs">
                               Por:{" "}
                               <span className="font-medium text-gray-700">
-                                {inf.user.username}
+                                {inf.usuario.username}
                               </span>
                             </span>
                           </div>
@@ -307,7 +307,7 @@ export default function Search() {
                             estado: inf.endereco?.estado,
                             data: new Date(inf.data).toLocaleString("pt-BR"),
                             imagem: `${API_BASE_URL}${inf.imagem}`,
-                            user: inf.user?.username || "Desconhecido",
+                            user: inf.usuario?.username || "Desconhecido",
                             pontos: inf.tipo_infracao.pontos,
                             infracao: inf.tipo_infracao.descricao,
                             placa: searchResult.placa,

@@ -419,7 +419,7 @@ export default function Validate() {
                       "pt-BR"
                     ),
                     imagem: `${API_BASE_URL}${validationResult.data.imagem}`,
-                    user: validationResult.data.user?.username,
+                    user: validationResult.data.usuario?.username,
                     pontos: String(validationResult.data.tipo_infracao?.pontos),
                     infracao: validationResult.data.tipo_infracao?.descricao,
                   },
